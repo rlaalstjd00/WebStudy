@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("todo")
 public class TodoController {
+    String temporaryUserId = "temporary-user";
 
     @Autowired
     private TodoService service;
@@ -32,7 +33,7 @@ public class TodoController {
     public ResponseEntity<?> createTodo(@RequestBody TodoDTO dto){
         try {
             // 임시 사용자 (인증 파트에서 수정)
-            String temporaryUserId = "temporary-user";
+
 
             // DTO를 entity로 변환
             TodoEntity entity = TodoDTO.toEntity(dto);
@@ -64,8 +65,7 @@ public class TodoController {
 
     @GetMapping
     public ResponseEntity<?> retrieveTodoList(){
-        String temporaryUserId = "temporary-user";
-        
+
         List<TodoEntity> entities = service.retrieve(temporaryUserId);
 
         List<TodoDTO> dtos = entities.stream().map(TodoDTO::new).collect(Collectors.toList());
@@ -77,7 +77,6 @@ public class TodoController {
 
     @PutMapping
     public ResponseEntity<?> updateTodo(@RequestBody TodoDTO dto){
-        String temporaryUserId = "temporary-user";
 
         TodoEntity entity = TodoDTO.toEntity(dto);
         entity.setUserId(temporaryUserId);
@@ -86,5 +85,22 @@ public class TodoController {
         ResponseDTO<TodoDTO> response = ResponseDTO.<TodoDTO>builder().data(dtos).build();
 
         return ResponseEntity.ok().body(response);
+    }
+
+    @DeleteMapping
+    public ResponseEntity<?> deleteTodo(@RequestBody TodoDTO dto){
+        try {
+            TodoEntity entity = TodoDTO.toEntity(dto);
+            entity.setUserId(temporaryUserId);
+            List<TodoEntity> entities = service.delete(entity);
+            List<TodoDTO> dtos = entities.stream().map(TodoDTO::new).collect(Collectors.toList());
+            ResponseDTO<TodoDTO> response = ResponseDTO.<TodoDTO>builder().data(dtos).build();
+
+            return ResponseEntity.ok().body(response);
+        } catch (Exception e) {
+            String error = e.getMessage();
+            ResponseDTO<TodoDTO> response = ResponseDTO.<TodoDTO>builder().error(error).build();
+            return ResponseEntity.badRequest().body(response);
+        }
     }
 }
