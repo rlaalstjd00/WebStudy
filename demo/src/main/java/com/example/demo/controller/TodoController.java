@@ -72,12 +72,14 @@ public class TodoController {
         }
     }
 
+    // 추가 조회 삭제 수정한 엔티티들을 DTO로 바꿔주고, ok()와 DTO 담은 response 반환
     private static ResponseEntity<ResponseDTO<TodoDTO>> getOkResponseDTO(List<TodoEntity> entities) {
         List<TodoDTO> dtos = entities.stream().map(TodoDTO::new).collect(Collectors.toList());
         ResponseDTO<TodoDTO> response = ResponseDTO.<TodoDTO>builder().data(dtos).build();
         return ResponseEntity.ok().body(response);
     }
 
+    // catch에 걸렸을 시, badRequest()와 에러메시지를 담은 response 반환
     private ResponseEntity<ResponseDTO<TodoDTO>> getBadRequestResponseDTO(Exception e) {
         error = e.getMessage();
         ResponseDTO<TodoDTO> response = ResponseDTO.<TodoDTO>builder().error(error).build();
