@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import Todo from './Todo';
 import './App.css';
-import { List, Paper } from '@material-ui/core';
+import { Container, List, Paper } from '@material-ui/core';
+import AddTodo from './AddTodo';
 
 function App(){
   
@@ -23,33 +24,23 @@ function App(){
     </Paper>
   );
 
-  return <div className="App">{todoItems}</div>
+  var add = (item) => {
+    const thisItems = state.items;
+    item.id = "ID-" + thisItems.length;
+    item.done = false;
+    thisItems.push(item);
+    setState({items: thisItems});
+    console.log("items : ", state.items);
+    }
+
+  return (
+    <div className='App'>
+      <Container maxWidth="md">
+        <AddTodo add={add}/>
+        <div className='TodoList'>{todoItems}</div>
+      </Container>
+    </div>
+  )
 }
-
-// class App extends React.Component {
-//   constructor(props){
-//     super(props);
-//     this.state = {
-//       items: [
-//         {id:"0", title:"hello1", done:true},
-//         {id:"1", title:"hello2", done:false}
-//       ]
-//     };
-//   }
-
-//   render(){
-//     var todoItems = this.state.items.length > 0 && (
-//       <Paper style={{margin: 16}}>
-//         <List>
-//           {this.state.items.map((item, idx) => 
-//             <Todo item={item} key={item.id}/>
-//           )}
-//         </List>
-//       </Paper>
-//     );
-
-//     return <div className="App">{todoItems}</div>
-//   }
-// }
 
 export default App;
