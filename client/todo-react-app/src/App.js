@@ -7,24 +7,11 @@ import AddTodo from './AddTodo';
 function App(){
   
   const [state, setState] = useState({
-    items: [
-      {id:"0", title:"hello1", done:true},
-      {id:"1", title:"hello2", done:false}
-    ]
+    items: []
   });
-  const items = state.items;
+  const items = state.items; 
 
-  var todoItems = items.length > 0 && (
-    <Paper style={{margin: 16}}>
-      <List>
-        {items.map((item, idx) => 
-          <Todo item={item} key={item.id}/>
-        )}
-      </List>
-    </Paper>
-  );
-
-  var add = (item) => {
+  const add = (item) => {
     const thisItems = state.items;
     item.id = "ID-" + thisItems.length;
     item.done = false;
@@ -32,6 +19,25 @@ function App(){
     setState({items: thisItems});
     console.log("items : ", state.items);
     }
+
+  const deleteItem = (item) => {
+    const thisItems = state.items;
+    console.log("Before Update Items : ", state.items);
+    const newItems = thisItems.filter(e => e.id !== item.id);
+    setState({items: newItems}, () => {
+      console.log("Update Items : ", state.items);
+    })
+  }
+
+  var todoItems = items.length > 0 && (
+    <Paper style={{margin: 16}}>
+      <List>
+        {items.map((item, idx) => 
+          <Todo item={item} key={item.id} deleteItem={deleteItem}/>
+        )}
+      </List>
+    </Paper>
+  );
 
   return (
     <div className='App'>
