@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Todo from './Todo';
 import './App.css';
 import { Container, List, Paper } from '@material-ui/core';
@@ -10,6 +10,10 @@ function App(){
     items: []
   });
   const items = state.items; 
+
+  useEffect(() => {
+    console.log("Update Items : ", state.items);
+  });
 
   const add = (item) => {
     const thisItems = state.items;
@@ -24,9 +28,7 @@ function App(){
     const thisItems = state.items;
     console.log("Before Update Items : ", state.items);
     const newItems = thisItems.filter(e => e.id !== item.id);
-    setState({items: newItems}, () => {
-      console.log("Update Items : ", state.items);
-    })
+    setState({items: newItems})
   }
 
   var todoItems = items.length > 0 && (
