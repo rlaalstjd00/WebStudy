@@ -28,6 +28,12 @@ dependencies {
 
 	// 구글 구아바
 	implementation group: 'com.google.guava', name: 'guava', version: '28.1-jre'
+
+	// jjwt 라이브러리
+	implementation group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
+
+	// 스프링 시큐리티
+	implementation 'org.springframework.boot:spring-boot-starter-security'
 }
 
 tasks.named('test') {
