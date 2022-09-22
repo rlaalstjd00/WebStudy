@@ -12,9 +12,12 @@ import java.util.Optional;
 @Service
 @Slf4j
 public class TodoService {
-    
-    @Autowired
+
     private TodoRepository repository;
+
+    public TodoService(TodoRepository repository) {
+        this.repository = repository;
+    }
 
     public String testService(){
         // 엔티티 생성

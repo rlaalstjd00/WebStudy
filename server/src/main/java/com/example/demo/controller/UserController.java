@@ -6,8 +6,9 @@ import com.example.demo.model.UserEntity;
 import com.example.demo.security.TokenProvider;
 import com.example.demo.service.UserService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,12 +19,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/auth")
 public class UserController {
 
-    @Autowired
     private UserService userService;
-
-    @Autowired
     private TokenProvider tokenProvider;
 
+    public UserController(UserService userService, TokenProvider tokenProvider) {
+        this.userService = userService;
+        this.tokenProvider = tokenProvider;
+    }
+
+    private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@RequestBody UserDTO userDTO){
 
@@ -55,7 +59,8 @@ public class UserController {
     public ResponseEntity<?> authenticate(@RequestBody UserDTO userDTO){
         UserEntity user = userService.getByCredentials(
                 userDTO.getEmail(),
-                userDTO.getPassword()
+                userDTO.getPassword(),
+                passwordEncoder
         );
 
         if(user != null){
