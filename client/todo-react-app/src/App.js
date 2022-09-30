@@ -3,6 +3,7 @@ import Todo from './Todo';
 import './App.css';
 import { Container, List, Paper } from '@material-ui/core';
 import AddTodo from './AddTodo';
+import { call } from './service/ApiService';
 
 function App(){
   
@@ -12,30 +13,48 @@ function App(){
   const items = state.items; 
 
   useEffect(() => {
-    console.log("Update Items : ", state.items);
-  });
+    call("/todo", "GET", null)
+    .then((response) =>{
+      console.log("18",response.data) 
+    setState(response.data)});
+  }, []);
+
+  const componentDidMount = () => {
+    call("/todo", "GET", null).then((response) =>
+
+      setState(response.data)
+    );
+  
+  }
 
   const add = (item) => {
-    const thisItems = state.items;
-    item.id = "ID-" + thisItems.length;
-    item.done = false;
-    thisItems.push(item);
-    setState({items: thisItems});
-    console.log("items : ", state.items);
-    }
+    call("/todo", "POST", item).then((response) =>
+      setState(response.data)
+    );
+  };
 
   const deleteItem = (item) => {
-    const thisItems = state.items;
-    console.log("Before Update Items : ", state.items);
-    const newItems = thisItems.filter(e => e.id !== item.id);
-    setState({items: newItems})
-  }
+    call("/todo", "DELETE", item).then((response) =>
+      setState(response.data)
+    );
+  };
+
+  const update = (item) => {
+    call("/todo", "PUT", item).then((response) =>
+      setState(response.data)
+    );
+  };
 
   var todoItems = items.length > 0 && (
     <Paper style={{margin: 16}}>
       <List>
         {items.map((item, idx) => 
-          <Todo item={item} key={item.id} deleteItem={deleteItem}/>
+          <Todo 
+            item={item} 
+            key={item.id} 
+            deleteItem={deleteItem}
+            update={update}
+          />
         )}
       </List>
     </Paper>
@@ -52,3 +71,52 @@ function App(){
 }
 
 export default App;
+
+// function App() {
+//   const [items, setItems] = useState([]);
+
+//   useEffect(() => {
+//     call("/todo", "GET", null)
+//     .then((response) => setItems(response.data));
+//   }, []);
+
+//   const addItem = (item) => {
+//     call("/todo", "POST", item)
+//     .then((response) => setItems(response.data));
+//   };
+
+//   const editItem = (item) => {
+//     call("/todo", "PUT", item)
+//     .then((response) => setItems(response.data));
+//   };
+
+//   const deleteItem = (item) => {
+//     call("/todo", "DELETE", item)
+//     .then((response) => setItems(response.data));
+//   };
+
+//   let todoItems = items.length > 0 && (
+//     <Paper style={{ margin: 16 }}>
+//       <List>
+//         {items.map((item) => (
+//           <Todo
+//             item={item}
+//             key={item.id}
+//             editItem={editItem}
+//             deleteItem={deleteItem}
+//           />
+//         ))}
+//       </List>
+//     </Paper>
+//   );
+//   return (
+//     <div className="App">
+//       <Container maxWidth="md">
+//         <AddTodo addItem={addItem} />
+//         <div className="TodoList">{todoItems}</div>
+//       </Container>
+//     </div>
+//   );
+// }
+
+// export default App;

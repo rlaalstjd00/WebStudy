@@ -5,6 +5,7 @@ import React, { useEffect, useState } from 'react';
 function Todo(props) {
     const [state, setState] = useState({ item: props.item, readOnly: true});
     const deleteItem = props.deleteItem;
+    const update = props.update;
 
     useEffect(() => {
         console.log("ReadOnly? ", state.readOnly)
@@ -22,6 +23,7 @@ function Todo(props) {
     const enterKeyEventHander = (e) => {
         if(e.key === 'Enter'){
             setState({readOnly: true});
+            update(props.item);
         }
     }
 
@@ -35,6 +37,7 @@ function Todo(props) {
         const thisItem = props.item;
         thisItem.done = !thisItem.done;
         setState({item: thisItem});
+        update(props.item);
     }
 
     const item = props.item;
@@ -72,3 +75,4 @@ function Todo(props) {
 }
 
 export default Todo;
+
