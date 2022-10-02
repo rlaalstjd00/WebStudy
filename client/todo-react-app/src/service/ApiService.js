@@ -1,10 +1,13 @@
 import { API_BASE_URL } from "../app-config";
 
 export function call(api, method, request){
+    let headers = new Headers({
+      "Content-Type": "application/json",
+    });
+
+  
     let options ={
-        headers: new Headers({
-            "Content-Type": "application/json",
-        }),
+        headers: headers,
         url: API_BASE_URL + api,
         method: method,
     };
@@ -16,7 +19,7 @@ export function call(api, method, request){
 
     return fetch(options.url, options).then((response) => {
         if (response.status === 200) {
-          return response.json();
+          return response;
         } else if(response.status === 403) {
           window.location.href = "/login"; // redirect
         } else {
