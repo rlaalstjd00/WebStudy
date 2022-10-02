@@ -32,9 +32,15 @@ public class UserService {
     public UserEntity getByCredentials(final String email, final String password, final PasswordEncoder encoder){
         final UserEntity originalUser = userRepository.findByEmail(email);
 
+        log.info("password: {}", password);
+        log.info("originalPassword: {}", originalUser.getPassword());
+        log.info("originalUserName: {}", originalUser.getUsername());
+
         if(originalUser != null && encoder.matches(password, originalUser.getPassword())){
+            log.info("originalUserName: {}", originalUser.getUsername());
             return originalUser;
         }
+
         return null;
     }
 
