@@ -79,7 +79,7 @@ public class TodoController {
     private static ResponseEntity<ResponseDTO<TodoDTO>> getOkResponseDTO(List<TodoEntity> entities) {
         List<TodoDTO> dtos = entities.stream().map(TodoDTO::new).collect(Collectors.toList());
         ResponseDTO<TodoDTO> response = ResponseDTO.<TodoDTO>builder().data(dtos).build();
-        return ResponseEntity.ok().body(response);
+        return ResponseEntity.ok(response);
     }
 
     // catch에 걸렸을 시, badRequest()와 에러메시지를 담은 response 반환
