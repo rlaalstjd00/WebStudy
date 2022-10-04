@@ -63,6 +63,8 @@ public class UserController {
                 passwordEncoder
         );
 
+        log.info("isUserNull?: {}", user == null );
+
         if(user != null){
             final String token = tokenProvider.create(user);
             final UserDTO responseUserDTO = UserDTO.builder()
