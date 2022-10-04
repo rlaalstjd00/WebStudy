@@ -11,10 +11,10 @@ const Login = () => {
     const handleSubmit = (event) => {
         event.preventDefault();
         const data = new FormData(event.target);
-        const username = data.get("username");
+        const email = data.get("email");
         const password = data.get("password");
 
-        signin({username: username, password: password});
+        signin({email: email, password: password});
     };
 
     return (
@@ -35,10 +35,10 @@ const Login = () => {
                   variant="outlined"
                   required
                   fullWidth
-                  id="username"
-                  label="아이디"
-                  name="username"
-                  autoComplete="username"
+                  id="email"
+                  label="이메일 주소"
+                  name="email"
+                  autoComplete="email"
                 />
               </Grid>
               <Grid item xs={12}>
