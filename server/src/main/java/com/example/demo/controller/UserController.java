@@ -72,7 +72,7 @@ public class UserController {
                     .id(user.getId())
                     .token(token)
                     .build();
-
+            log.info("token : {}", token);
             return ResponseEntity.ok().body(responseUserDTO);
         }else {
             ResponseDTO responseDTO = ResponseDTO.builder()
