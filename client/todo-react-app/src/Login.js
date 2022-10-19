@@ -69,9 +69,10 @@
 
 import React from "react";
 import { Container, Grid, Typography, TextField, Button } from "@material-ui/core";
+import {Link} from "react-router-dom";
 import { signin } from "./service/ApiService";
 
-const Login = () => {
+function Login() {
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.target);
@@ -122,10 +123,15 @@ const Login = () => {
               로그인
             </Button>
           </Grid>
+          <Grid item>
+            <Link to="/signup" variant="body2">
+            계정이 없습니까? 여기서 가입 하세요.
+            </Link>
+          </Grid>
         </Grid>
       </form>
     </Container>
   );
-};
+}
 
 export default Login;

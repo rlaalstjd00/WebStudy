@@ -51,6 +51,8 @@
 //         // });
 // }
 
+
+
 import { API_BASE_URL } from "../app-config";
 
 export function call(api, method, request) {
@@ -98,3 +100,15 @@ export function signin(userDTO) {
       }  
     });
 }
+
+export function signout() {
+  localStorage.setItem("ACCESS_TOKEN", null);
+  window.location.href = "/login";
+}
+
+export function signup(userDTO) {
+  return call("/auth/signup", "POST", userDTO);
+}
+
+
+
