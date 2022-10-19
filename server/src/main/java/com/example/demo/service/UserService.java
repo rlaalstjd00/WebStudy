@@ -23,7 +23,7 @@ public class UserService {
         final String username = userEntity.getUsername();
         if (userRepository.existsByUsername(username)) {
             log.warn("Username already exists {}", username);
-            throw new RuntimeException("Email already exists");
+            throw new RuntimeException("Username already exists");
         }
 
         return userRepository.save(userEntity);
