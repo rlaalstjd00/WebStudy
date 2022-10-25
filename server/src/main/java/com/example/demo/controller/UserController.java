@@ -33,14 +33,12 @@ public class UserController {
 
         try {
             UserEntity user = UserEntity.builder()
-                    .email(userDTO.getEmail())
                     .username(userDTO.getUsername())
                     .password(passwordEncoder.encode(userDTO.getPassword()))
                     .build();
 
             UserEntity registeredUser = userService.create(user);
             UserDTO responseUserDTO = UserDTO.builder()
-                    .email(registeredUser.getEmail())
                     .id(registeredUser.getId())
                     .username(registeredUser.getUsername())
                     .build();
@@ -57,18 +55,22 @@ public class UserController {
 
     @PostMapping("/signin")
     public ResponseEntity<?> authenticate(@RequestBody UserDTO userDTO){
+
+        log.info("userDTO name : {}", userDTO.getUsername());
+        log.info("userDTO password : {}", userDTO.getPassword());
+
         UserEntity user = userService.getByCredentials(
-                userDTO.getEmail(),
+                userDTO.getUsername(),
                 userDTO.getPassword(),
                 passwordEncoder
         );
 
-        log.info("isUserNull?: {}", user == null );
+        log.info("isUserNull?: {}", user );
 
         if(user != null){
             final String token = tokenProvider.create(user);
             final UserDTO responseUserDTO = UserDTO.builder()
-                    .email(user.getEmail())
+                    .username(user.getUsername())
                     .id(user.getId())
                     .token(token)
                     .build();

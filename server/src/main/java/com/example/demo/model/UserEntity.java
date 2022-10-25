@@ -13,7 +13,7 @@ import javax.persistence.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(uniqueConstraints = {@UniqueConstraint(columnNames = "email")})
+@Table(uniqueConstraints = {@UniqueConstraint(columnNames = "username")})
 public class UserEntity {
     @Id
     @GeneratedValue(generator = "system-uuid")
@@ -22,9 +22,6 @@ public class UserEntity {
 
     @Column(nullable = false)
     private String username;
-
-    @Column(nullable = false)
-    private String email;
 
     @Column(nullable = false)
     private String password;

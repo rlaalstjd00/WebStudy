@@ -48,6 +48,7 @@ public class TokenProvider {
     private static final String SECRET_KEY = "FlRpX30pMqDbiAkmlfArbrmVkDD4RqISskGZmBFax5oGVxzXXWUzTR5JyskiHMIV9M1Oicegkpi46AdvrcX1E6CmTUBc6IFbTPiD";
 
     public String create(UserEntity userEntity) {
+
         // 기한 지금으로부터 1일로 설정
         Date expiryDate = Date.from(
                 Instant.now()
